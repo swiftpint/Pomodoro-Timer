@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello world</title>
+        <link rel="stylesheet" type="text/css" href="/style.css">
+    </head>
+    
+    <body>
+        <div id="main" class="work">
+            <div id="status">Work</div>
+            <div id="timer" class="timer-div">25:00</div>
+            <div class="button-div">
+                <p id="pauseButton" class="button">Start</p>
+                <p id="resetButton" class="button">Reset</p>
+            </div>                       
+        </div>
+    </body>
+   
+    <script>
+    const workTime = 25 * 60;
+    const breakTime = 5 * 60;
+    let status = "Work";
+    let count = workTime;
+    let paused = true;
+    document.getElementById("pauseButton").addEventListener("click", runTimer);
+    document.getElementById("resetButton").addEventListener("click", resetTimer);
+        
+    function runTimer() {
+ //       clearInterval(timer);
+        console.log(paused)
+        if (paused === true) {
+            paused = false
+            document.getElementById("pauseButton").innerHTML = "Pause"; 
+        } else {
+            paused = true;
+            document.getElementById("pauseButton").innerHTML = "Start"; 
+        }
+    }
+    
+        var timer = setInterval(function(){
+          if (paused === false ){
+            count --;
+        } 
+         
+        if ( status === "Work" && count === 0) {
+            status = "Break";
+            count = breakTime;
+            document.getElementById("status").innerHTML = status;    
+            document.getElementById("main").className = "break";
+         }
+        if ( status === "Break" && count === 0) {
+            status = "Work";
+            count = workTime;
+            document.getElementById("status").innerHTML = status;
+            document.getElementById("main").className = "work";
+        }
+     
+            var time = fmtMSS(count); 
+            document.getElementById("timer").innerHTML = time;        
+    }, 1000)
+
+    function resetTimer(){
+        status = "Work Time"
+        paused = true;
+        count = 25 * 60;
+        var time = fmtMSS(count); 
+        document.getElementById("timer").innerHTML = time;
+        document.getElementById("pauseButton").innerHTML = "Start"; 
+    }
+
+    function fmtMSS(s){return(s-(s%=60))/60+(9<s?':':':0')+s}
+    </script>
+</html>
